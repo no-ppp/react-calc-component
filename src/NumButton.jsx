@@ -1,5 +1,10 @@
-export function NumButton( { children } ) {
+export function NumButton( { children, onHolder } ) {
     return (
-        <button className="bg-gray-500 rounded-full text-white w-16 h-16 text-2xl font-semibold hover:bg-white-500"> {children} </button>
+        <button
+            onClick={onHolder}
+            className="bg-gray-500 rounded-full text-white w-16 h-16 font-semibold hover:bg-gray-400"
+        >
+            {children}
+        </button>
     )
 }
