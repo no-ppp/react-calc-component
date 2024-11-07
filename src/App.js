@@ -1,85 +1,82 @@
-import './App.css';
-import { NumButton }  from "./NumButton";
-import { OperatorButton } from "./OperatorButton";
-import { Screen } from "./Screen";
-import { useState } from "react";
+import React, { useState } from 'react';
 
 function App() {
-    const [state, setState] = useState({
-        currentValue: '',
-        previousValue: '',
-        operation: '',
-        result: 0,
-    });
+    const [shower, setShower] = useState('');
+    const [current, setCurrent] = useState('');
+    const [previous, setPrevious] = useState('');
+    const [operator, setOperator] = useState('');
+    const [result, setResult] = useState('');
+    function clickHandler(input){
+        setCurrent(prevCurrent => {
+            const newCurrent = prevCurrent + input;
+            setShower(result + operator + newCurrent);
+            return newCurrent;
+        });
 
-    function numPrinter(new_num) {
-        setState(prevState => ({
-            ...prevState,
-            currentValue: prevState.currentValue + new_num,
-        }));
     }
-    function setOperation(op) {
-        if (state.currentValue === '') return;
-        const current = parseFloat(state.currentValue);
-        if (state.currentValue !== '') {
-            const prev = parseFloat(state.previousValue);
-            let calcValue;
-            switch (state.operation){
-                case "+":
-                    calcValue = prev + current
-                    break;
-                case "-":
-                    calcValue = prev - current
-                    break;
-                case "*":
-                    calcValue = prev * current
-                    break;
-                case '/':
-                    calcValue = prev / current
-                    break;
-                default:
-                    calcValue = current;
-
-            }
-            setState({
-            ...state,
-            result: calcResult,
-            previousValue: calcValue.toString(),
-                currentValue: '',
-                operation: op
-        })
+    function clearAll(){
+        setCurrent('');
+        setPrevious('');
+        setOperator('');
+        setResult('');
+        setShower('')
     }
-  return (
-      <div className='min-h-screen flex items-center justify-center bg-gray-600'>
-          <div className="bg-gray-700 p-8 rounded-lg shadow-lg">
-              <div className='bg-green-500 pb-2 pt-2 pl-2 h-16'>
-                  <Screen> { state.currentValue || state.result || 0 } </Screen>
+    function operatorHandler(input){
+        if (operator === ''){
+            setOperator(input)
+            setPrevious(current)
+            setCurrent('')
+            setResult(result + current)
+            setShower( result + operator + current)
+            return;
+        } else {
 
-              </div>
-              <div className="pt-5 grid grid-cols-4 gap-4">
-                  <NumButton onHolder={() => numPrinter('1')}> 1 </NumButton>
-                  <NumButton onHolder={() => numPrinter('2')}> 2 </NumButton>
-                  <NumButton onHolder={() => numPrinter('3')}> 3 </NumButton>
-                  <OperatorButton> + </OperatorButton>
-                  <NumButton onHolder={() => numPrinter('4')}> 4 </NumButton>
-                  <NumButton onHolder={() => numPrinter('5')}> 5 </NumButton>
-                  <NumButton onHolder={() => numPrinter('6')}> 6 </NumButton>
-                  <OperatorButton> - </OperatorButton>
-                  <NumButton onHolder={() => numPrinter('7')}> 7 </NumButton>
-                  <NumButton onHolder={() => numPrinter('8')}> 8 </NumButton>
-                  <NumButton onHolder={() => numPrinter('9')}> 9 </NumButton>
-                  <OperatorButton> / </OperatorButton>
-                  <NumButton onHolder={() => numPrinter('0')}> 0 </NumButton>
-                  <NumButton onHolder={() => numPrinter(',')}> , </NumButton>
-                  <NumButton onHolder={() => numPrinter('=')}> = </NumButton>
-                  <OperatorButton> * </OperatorButton>
-                  <OperatorButton onHolder={() => numPrinter('C')}> C </OperatorButton>
+        }
 
-              </div>
-              </div>
-          </div>
-          )
-          }
+    }
 
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-600">
+            <div className="bg-gray-700 p-8 rounded-lg shadow-lg">
+                <div className="bg-green-500 pb-2 pt-2 pl-2 h-16">
+                    <div className="text-white text-4xl">
+                        { shower }
+                    </div>
+                </div>
+                <div className="pt-5 grid grid-cols-4 gap-4">
 
-          export default App;
+                    <button onClick={() => clickHandler('1')}
+                            className="bg-gray-500 rounded-full text-white w-16 h-16">1</button>
+                    <button
+                        onClick={() => clickHandler('2')}
+                        className="bg-gray-500
+                        rounded-full
+                        text-white
+                        w-16 h-16"
+                        > 2
+                    </button>
+                    <button onClick={() => clickHandler('3')} className="bg-gray-500 rounded-full text-white w-16 h-16">3</button>
+                    <button onClick={() => {clickHandler('+'); operatorHandler('+')}} className="bg-gray-500 rounded-full text-white w-16 h-16">+</button>
+
+                    <button onClick={() => clickHandler('4')} className="bg-gray-500 rounded-full text-white w-16 h-16">4</button>
+                    <button onClick={() => clickHandler('5')} className="bg-gray-500 rounded-full text-white w-16 h-16">5</button>
+                    <button onClick={() => clickHandler('6')} className="bg-gray-500 rounded-full text-white w-16 h-16">6</button>
+                    <button  className="bg-gray-500 rounded-full text-white w-16 h-16">-</button>
+
+                    <button onClick={() => clickHandler('7')} className="bg-gray-500 rounded-full text-white w-16 h-16">7</button>
+                    <button onClick={() => clickHandler('8')} className="bg-gray-500 rounded-full text-white w-16 h-16">8</button>
+                    <button onClick={() => clickHandler('9')} className="bg-gray-500 rounded-full text-white w-16 h-16">9</button>
+                    <button className="bg-gray-500 rounded-full text-white w-16 h-16">*</button>
+
+                    <button onClick={() => clickHandler('0')} className="bg-gray-500 rounded-full text-white w-16 h-16">0</button>
+                    <button onClick={() => clearAll()} className="bg-gray-500 rounded-full text-white w-16 h-16">C</button>
+                    <button  className="bg-gray-500 rounded-full text-white w-16 h-16">/</button>
+                    <button  className="bg-gray-500 rounded-full text-white w-16 h-16">=</button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default App;
+
