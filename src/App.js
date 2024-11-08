@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import {NumButton} from "./NumButton";
 import {OperatorButton} from "./OperatorButton";
 
