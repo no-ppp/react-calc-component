@@ -2,8 +2,26 @@ import React, { useReducer } from 'react';
 import {NumButton} from "./NumButton";
 import {OperatorButton} from "./OperatorButton";
 
-function App() {
+const ACTIONS = {
+    ADD_DIGIT: 'add-digit',
+    CLEAR: 'clear',
+    DELETE_DIGIT: 'delete-digit',
+    OPERATIONS: 'operations',
+    EVALUATE: 'evaluate',
+}
+function reducer(state, { type, payload }) {
+    switch (type) {
+        case ACTIONS.ADD_DIGIT:
+            return {
+                ...state,
+                currentOperand: `${currentOperand || ''}${payload.digit}`,
+            }
+    }
 
+}
+
+function App() {
+    const [{currentOperand,previousOperan,operation}, dispatch] = useReducer(reducer, {})
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-600">
             <div className="bg-gray-700 p-8 rounded-lg shadow-lg">
